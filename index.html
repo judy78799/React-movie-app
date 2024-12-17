@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<!-- react.Js : interactive한 UI를 만들 수 있게 한다. -->
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<!-- react-dom : React elements들을 HTML Body에 둘 수 있도록 해줌 -->
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script>
+    const root = document.getElementById("root");
+    const span = React.createElement("span", {id:"sexy-span"});
+    ReactDOM.render(span, root);  //리액트 엘리먼트를 가지고 Html로 만들어서 배치함.
+</script>
+</html>
