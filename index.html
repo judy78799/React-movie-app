@@ -18,26 +18,46 @@
     //React.createElement(html 태그, 속성(이벤트, 스타일, id, class명), html 안에 쓰여질 내용)
     function App (){ 
         
-        const [minutes, setMinutes] = React.useState();
+        const [amount, setAmount] = React.useState(0);
+        const [flipped, setFlipped] = React.useState(false);
         const onChange = (event) => {
-            setMinutes(event.target.value);
+            setMinutes(event.target.value); //값을 자동으로 업데이트 해주는 부분(리액트의 장점)
         };
+        const reset = () => setMinutes(0);
+        //const onFlip = () => setFlipped(!flipped); 안좋은 방법
+        const onFlip = () => setFlipped((current) => !current);
         return(
             <div>
                 <h1 className="hi">Super Converter</h1>
+                <div>
                 <label htmlFor="minutes">Minutes</label>
                 <input 
                     value={minutes}
                     id="minutes" 
                     placeHolder="Minutes" 
                     type="number"
-                    onChange={onChange}
+                    onChange={onChange} //여기에 작성해야 업데이트 값이 UI에 보여진다.
+                    disabled={flipped} //Hours가 켜져있다면 Minutes를 꺼줘
                 />
-                <h4>You want to convert {minutes}</h4>
+            </div>
+
+            <div>
                 <label htmlFor="hours">Hours</label>
-                <input id="hours" placeHolder="Hours" type="number"/>
+                <input 
+                    value={Math.round(minutes/60)} 
+                    id="hours" 
+                    placeHolder="Hours" 
+                    type="number"
+                    onChange={onChange}
+                    disabled={!flipped}    //Minutes가 켜져있다면 Hours를 꺼줘
+                />
+            </div>
+            <button onClick={reset}>Reset</button>
+            <button onClick={onFlip}>Flip</button>
+
+                
             </div>  
-        );  //업데이트 된 counter를 가지고 있음.
+        );  //업데이트 된 counter를 가지고 있음
     }
     const root = document.getElementById("root");
     ReactDOM.render(<App/>, root);  //리액트 엘리먼트를 가지고 Html로 만들어서 배치함. 1번
