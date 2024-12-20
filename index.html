@@ -16,48 +16,73 @@
 <script type="text/babel">
     
     //React.createElement(html 태그, 속성(이벤트, 스타일, id, class명), html 안에 쓰여질 내용)
-    function App (){ 
+    function MinutesToHours (){ 
         
         const [amount, setAmount] = React.useState(0);
-        const [flipped, setFlipped] = React.useState(false);
+        const [inverted, setInverted] = React.useState(false);
         const onChange = (event) => {
-            setMinutes(event.target.value); //값을 자동으로 업데이트 해주는 부분(리액트의 장점)
+            setAmount(event.target.value); //input 값을 state에 전달해줌., 값을 자동으로 업데이트 해주는 부분(리액트의 장점) 
         };
-        const reset = () => setMinutes(0);
+        const reset = () => setAmount(0);
         //const onFlip = () => setFlipped(!flipped); 안좋은 방법
-        const onFlip = () => setFlipped((current) => !current);
+        const onInvert = () => {
+            reset();
+            setInverted((current) => !current)
+        };
         return(
             <div>
-                <h1 className="hi">Super Converter</h1>
                 <div>
                 <label htmlFor="minutes">Minutes</label>
                 <input 
-                    value={minutes}
+                    value={inverted ? amount*60 : amount}    //flipped 되면(Hours) 시를 분으로 고쳐줘
                     id="minutes" 
                     placeHolder="Minutes" 
                     type="number"
                     onChange={onChange} //여기에 작성해야 업데이트 값이 UI에 보여진다.
-                    disabled={flipped} //Hours가 켜져있다면 Minutes를 꺼줘
+                    disabled={inverted} //Hours가 켜져있다면 Minutes를 꺼줘
                 />
             </div>
 
             <div>
                 <label htmlFor="hours">Hours</label>
                 <input 
-                    value={Math.round(minutes/60)} 
+                    value={inverted ? amount : Math.round(amount/60)} 
                     id="hours" 
                     placeHolder="Hours" 
                     type="number"
                     onChange={onChange}
-                    disabled={!flipped}    //Minutes가 켜져있다면 Hours를 꺼줘
+                    disabled={!inverted}    //Minutes가 켜져있다면 Hours를 꺼줘
                 />
             </div>
             <button onClick={reset}>Reset</button>
-            <button onClick={onFlip}>Flip</button>
+            <button onClick={onInvert}>{inverted ? "Turn back" : "Invert"}</button>
 
                 
             </div>  
         );  //업데이트 된 counter를 가지고 있음
+    }
+    function KmToMiles(){
+        return (<h3>KM 2 M</h3>);
+    }
+    function App (){ 
+        const [index, setIndex] = React.useState("xx"); 
+        const onSelect = (event) => {
+            setIndex(event.target.value);
+        };
+
+        return(
+            <div>
+                <h1>Super Converter</h1>
+                <select value={index} onChange={onSelect}>
+                    <option value="xx">Select Your units</option>
+                    <option value="0">Minutes & Hours</option>
+                    <option value="1">KM & Miles</option>
+                </select>
+                {index === "xx" ? "Please select your units" : null}
+                {index === "0" ? <MinutesToHours/> : null}
+                {index === "1" ? <KmToMiles/> : null}
+            </div>  
+        );    
     }
     const root = document.getElementById("root");
     ReactDOM.render(<App/>, root);  //리액트 엘리먼트를 가지고 Html로 만들어서 배치함. 1번
