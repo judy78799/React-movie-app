@@ -9,13 +9,15 @@
     <div id="root"></div>
 </body>
 <!-- react.Js : interactive한 UI를 만들 수 있게 한다. -->
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
 <!-- react-dom : React elements들을 HTML Body에 둘 수 있도록 해줌 -->
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 <script type="text/babel">
-    function Btn({banana}){
-        console.log("매개변수는? : ",props);
+    function Btn({text, fontSize = 16}){
+        console.log("매개변수는? : "+ text);
         return <button
                     style={{
                         backgroundColor:"tomato",
@@ -23,17 +25,23 @@
                         padding: "10px 20px",
                         border: 0,
                         borderRadius: 10,
+                        fontSize,
                     }}
-        >{banana}</button>
+        >
+        {text}
+        </button>
+
     }
- 
+    Btn.propTypes = {
+        text: PropTypes.string.isRequired,
+        fontSize: PropTypes.number.isRequired,
+    };
     //React.createElement(html 태그, 속성(이벤트, 스타일, id, class명), html 안에 쓰여질 내용)
     function App (){ 
-
         return(
             <div>
-                <Btn banana="Save Changes"/>
-                <Btn banana="Confirm"/>
+                <Btn text="Save Changes" fontSize={18}/>
+                <Btn text={"Continue"}/>
             </div>  
         );    
     }
